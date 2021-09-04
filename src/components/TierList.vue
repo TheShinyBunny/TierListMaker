@@ -7,6 +7,7 @@
       :label="tier.label"
       :items="tier.items"
       @remove-item="removeItem"
+      @remove="removeTier(index)"
     />
   </div>
 </template>
@@ -61,6 +62,9 @@ export default {
       } else {
         this.$emit('removeAvailable', index)
       }
+    },
+    removeTier(index: number) {
+      this.tiers.splice(index,1)
     }
   },
   emits: ['remove-available']

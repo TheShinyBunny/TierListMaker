@@ -1,7 +1,7 @@
 <template>
   <div class="tier row">
     <div class="col-1 align-middle d-flex align-items-center justify-content-center" :style="{ backgroundColor: color }" data-bs-toggle="modal" :data-bs-target="'#editModal' + index">
-      <p class="h5">{{ label }}</p>
+      <p class="h5 text-break text-center">{{ label }}</p>
     </div>
     <div class="col-11 bg-dark d-flex flex-row flex-wrap justify-content-start align-items-center" @dragover.prevent @drop="addItem">
       <img
@@ -17,16 +17,17 @@
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title">Edit Tier <input v-model="label" id="name" class="mx-1 form-control-plaintext d-inline-block w-auto" type="text" placeholder="Untitled"/></h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <h5 class="modal-title">Edit Tier <input v-model="label" id="name" nofill autocomplete="false" class="mx-1 form-control-plaintext d-inline-block w-auto" type="text" placeholder="Untitled"/></h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
-            <form class="row align-items-center">
+            <form class="row align-items-center" autocomplete="off">
               <label class="col-4" for="color">Background Color</label>
               <input v-model="color" id="color" class="form-control form-control-color col-8" type="color"/>
             </form>
           </div>
           <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" @click="removeTier">Remove</button>
             <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Save</button>
           </div>
         </div>
@@ -53,9 +54,12 @@ export default {
       e.dataTransfer.setData('img', (e.target as HTMLImageElement).src)
       e.dataTransfer.setData('index', index + '')
       e.dataTransfer.setData('tier', this.index + '')
+    },
+    removeTier() {
+      this.$emit('remove')
     }
   },
-  emits: ['remove-item']
+  emits: ['remove-item','remove']
 }
 </script>
 
