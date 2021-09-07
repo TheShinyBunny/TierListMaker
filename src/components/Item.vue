@@ -4,15 +4,13 @@
 
 <script lang="ts">
 export default {
-  props: {
-    index: Number,
-    image: String
-  },
+  props: ['index','image'],
   methods: {
     startDrag(e: DragEvent) {
       e.dataTransfer.setDragImage(this.$refs.img, 0, 0)
       e.dataTransfer.setData('img', this.$refs.img.src)
       e.dataTransfer.setData('index', this.index)
+      e.dataTransfer.setData('tier', '-1')
     }
   }
 }

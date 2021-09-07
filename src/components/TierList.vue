@@ -1,76 +1,46 @@
 <template>
-  <div class="container d-flex flex-column">
+  <div class="d-flex flex-column mx-auto mw-75" draggable="false">
     <Tier
       v-for="(tier, index) in tiers"
-      :color="tier.color"
       :index="index"
-      :label="tier.label"
-      :items="tier.items"
-      @remove-item="removeItem"
-      @remove="removeTier(index)"
+      :key="index"
+      draggable="false"
     />
+    <div class="row add-tier-row">
+      <button class="btn btn-lg col-1 btn-light" @click="addNewTier">
+        <i class="fa fa-plus" aria-hidden="true"></i>
+      </button>
+    </div>
   </div>
 </template>
 
 <script lang="ts">
+import { mapMutations, mapState } from "vuex"
 import Tier from "./Tier.vue"
 
 export default {
   components: {
     Tier
   },
-  data() {
-    return {
-      tiers: [
-        {
-          label: 'S',
-          color: '#ff2222',
-          items: []
-        },
-        {
-          label: 'A',
-          color: '#88ee00',
-          items: []
-        },
-        {
-          label: 'B',
-          color: '#eeee00',
-          items: []
-        },
-        {
-          label: 'C',
-          color: '#ee7700',
-          items: []
-        },
-        {
-          label: 'D',
-          color: '#654321',
-          items: []
-        },
-        {
-          label: 'F',
-          color: '#777777',
-          items: []
-        }
-      ]
-    }
+  computed: {
+    ...mapState(['tiers'])
   },
   methods: {
-    removeItem(index: number, tier: number) {
-      if (tier >= 0) {
-        this.tiers[tier].items.splice(index, 1)
-      } else {
-        this.$emit('removeAvailable', index)
-      }
-    },
-    removeTier(index: number) {
-      this.tiers.splice(index,1)
+    ...mapMutations(['addTier']),
+    addNewTier() {
+      this.addTier({label: 'New',color: '#ffffff',items: []})
     }
-  },
-  emits: ['remove-available']
+  }
 }
 
 </script>
 
 <style>
+.mw-75 {
+  max-width: 75%;
+}
+
+.add-tier-row {
+  padding: 0px 30px;
+}
 </style>
